@@ -1,0 +1,2 @@
+# Nexy
+nexy discord bot
