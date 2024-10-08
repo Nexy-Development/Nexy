@@ -1,7 +1,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { presenceName, presenceType, presenceStatus } = require('./config.json');
+const { Client, Collection, Events, GatewayIntentBits, ActivityType  } = require('discord.js');
 
 require('dotenv').config()
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -12,13 +11,13 @@ client.login(token);
 client.on("ready", () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	client.user.setPresence({
-   activities: [{
-     name: presenceName,
-     type: presenceType,
-    }],
-    status: presenceStatus,
-  });
+		activities: [{
+			name: 'EVERYONE',
+			type: ActivityType.Watching,
+		}],
+		status: 'dnd'
 	});
+    });
 
 
 client.commands = new Collection();
