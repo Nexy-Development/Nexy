@@ -1,3 +1,2 @@
 # Nexy
-nexy discord bot
-TEST
+A new created discord bot by us
