@@ -2,20 +2,29 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const { presenceName, presenceType, presenceStatus } = require('./config.json');
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
 
 require('dotenv').config()
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
-const DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
-client.login(DISCORD_BOT_TOKEN);
+const token = process.env.token;
+client.login(token);
 
-client.once(Events.ClientReady, readyClient => {
-	console.log(`Ready! Logged in as ${readyClient.user.tag}`);
-});
+client.on("ready", () => {
+	console.log(`Logged in as ${client.user.tag}!`);
+	client.user.setPresence({
+   activities: [{
+     name: presenceName,
+     type: presenceType,
+    }],
+    status: presenceStatus,
+  });
+	});
+
 
 client.commands = new Collection();
+
+const foldersPath = path.join(__dirname, 'commands');
+const commandFolders = fs.readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
 	const commandsPath = path.join(foldersPath, folder);
@@ -32,6 +41,11 @@ for (const folder of commandFolders) {
 	}
 }
 
+client.on(Events.InteractionCreate, interaction => {
+	if (!interaction.isChatInputCommand()) return;
+	console.log(interaction);
+});
+
 client.on(Events.InteractionCreate, async interaction => {
 	if (!interaction.isChatInputCommand()) return;
 
@@ -44,7 +58,7 @@ client.on(Events.InteractionCreate, async interaction => {
 
 	try {
 		await command.execute(interaction);
-	} catch (error) {
+	} catch (error) {	
 		console.error(error);
 		if (interaction.replied || interaction.deferred) {
 			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
