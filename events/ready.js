@@ -1,4 +1,4 @@
-const { Events } = require("discord.js");
+const { Events, ActivityType } = require("discord.js");
 
 module.exports = {
   name: Events.ClientReady,
@@ -11,7 +11,7 @@ module.exports = {
           name: "Everyone",
           type: ActivityType.Watching,
         },
-      ],
+      ],  
       status: "dnd",
     });
   },
