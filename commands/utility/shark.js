@@ -1,10 +1,4 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  //   StringSelectMenuBuilder,
-  //   StringSelectMenuOptionBuilder,
-  //   ActionRowBuilder,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const Sharkstories = require("../../sharkstories.json");
 
 module.exports = {
